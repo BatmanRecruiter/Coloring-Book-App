@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coloring Book Studio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+<body>
+  <header class="app-header no-print">
+    <h1>🎨 Coloring Book Studio</h1>
+    <p>Turn any photo into a printable coloring page — right in your browser. Nothing is uploaded anywhere.</p>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar no-print">
+      <div id="dropZone" class="drop-zone" tabindex="0">
+        <input type="file" id="fileInput" accept="image/*" hidden>
+        <div class="drop-zone-inner">
+          <span class="drop-icon">📷</span>
+          <strong>Load a photo</strong>
+          <span class="drop-hint">Click, drag &amp; drop, or paste (Ctrl+V)</span>
+        </div>
+      </div>
+      <button id="sampleBtn" class="btn btn-ghost">Try a sample image</button>
+
+      <div class="mode-tabs" role="tablist">
+        <button id="modeOutline" class="mode-tab active" role="tab" aria-selected="true">✏️ Outlines</button>
+        <button id="modePbn" class="mode-tab" role="tab" aria-selected="false">🔢 Paint by Numbers</button>
+      </div>
+
+      <section class="controls">
+        <label class="control">
+          <span>Output size</span>
+          <select id="outputSize">
+            <option value="800">Small (800 px)</option>
+            <option value="1200" selected>Medium (1200 px)</option>
+            <option value="1600">Large (1600 px)</option>
+          </select>
+        </label>
+
+        <div id="outlineControls">
+          <label class="control">
+            <span>Detail <output id="detailOut">55</output></span>
+            <input type="range" id="detail" min="1" max="100" value="55">
+          </label>
+          <label class="control">
+            <span>Smoothing <output id="smoothOut">1</output></span>
+            <input type="range" id="smooth" min="0" max="5" value="1">
+          </label>
+          <label class="control">
+            <span>Line thickness <output id="thicknessOut">1</output></span>
+            <input type="range" id="thickness" min="1" max="4" value="1">
+          </label>
+        </div>
+
+        <div id="pbnControls" hidden>
+          <label class="control">
+            <span>Number of colors <output id="colorsOut">8</output></span>
+            <input type="range" id="colors" min="2" max="24" value="8">
+          </label>
+          <label class="control">
+            <span>Simplify regions <output id="simplifyOut">45</output></span>
+            <input type="range" id="simplify" min="0" max="100" value="45">
+          </label>
+          <label class="control">
+            <span>Line weight <output id="pbnThicknessOut">1</output></span>
+            <input type="range" id="pbnThickness" min="1" max="3" value="1">
+          </label>
+          <label class="control control-check">
+            <input type="checkbox" id="showNumbers" checked>
+            <span>Show numbers</span>
+          </label>
+          <label class="control control-check">
+            <input type="checkbox" id="showFilled">
+            <span>Show colored preview (solution)</span>
+          </label>
+        </div>
+
+        <label class="control control-check">
+          <input type="checkbox" id="showOriginal">
+          <span>Show original photo</span>
+        </label>
+      </section>
+
+      <section class="actions">
+        <button id="downloadBtn" class="btn btn-primary" disabled>⬇️ Download PNG</button>
+        <button id="downloadLegendBtn" class="btn" disabled hidden>⬇️ Download with color key</button>
+        <button id="printBtn" class="btn" disabled>🖨️ Print</button>
+      </section>
+    </aside>
+
+    <section class="preview">
+      <div id="emptyState" class="empty-state no-print">
+        <p>Load a photo to get started.</p>
+        <p class="empty-sub">Pets, portraits, landscapes, toys — anything with clear shapes works great.</p>
+      </div>
+      <div id="canvasWrap" class="canvas-wrap" hidden>
+        <canvas id="resultCanvas"></canvas>
+        <div id="busy" class="busy no-print" hidden><div class="spinner"></div><span id="busyText">Processing…</span></div>
+      </div>
+      <div id="legend" class="legend" hidden>
+        <h2>Color key</h2>
+        <div id="legendItems" class="legend-items"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer no-print">
+    <p>Tip: print on thicker paper and grab your crayons. 🖍️</p>
+  </footer>
+
+  <script src="js/engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
